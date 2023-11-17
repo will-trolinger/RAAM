@@ -22,7 +22,7 @@ The notebook calculates distances using the centroid of each county as a referen
     ```
         pip install -r requirements.txt
     ```
-2. Download and Save US County Shapefile:
+2. Download and Save US County Shapefile (Other Files Are Provided):
    - The US Census Bureau 2020 US County Shapefile: https://www.census.gov/cgi-bin/geo/shapefiles/index.php?year=2020&layergroup=Counties+%28and+equivalent%29
    - *Save in same directory as code*
    
