@@ -18,50 +18,53 @@ The notebook calculates distances using the centroid of each county as a referen
 
 ## Use
 1. Install the required packages from `requirements.txt`:
-    ```pip install -r requirements.txt```
-2. Load data (geographic and providers):   
-  ```
-df1 = getCounties(state)
-df2 = getLocations(state, type)
- ```
+    ```
+        pip install -r requirements.txt
+    ```
+3. Load data (geographic and providers):   
+    ```
+        df1 = getCounties(state)
+        df2 = getLocations(state, type)
+    ```
 
 3. Use OSRM API to create a distance matrix:
-   ```
-    coords = np.vstack((src_coords, dest_coords))
-    coordinates_str = ";".join([f"{x},{y}" for x, y in coords])
-    osrm_endpoint = f"http://router.project-osrm.org/table/v1/driving/{coordinates_str}?sources={sources}&destinations={destinations}&annotations=distance"
-    headers = requests.utils.default_headers()
-    headers.update({'User-Agent': 'My User Agent 1.0'})
-
-    attempts = 0
-    while attempts < max_retries:
-        try:
-            response = requests.get(osrm_endpoint, headers=headers)
-            response.raise_for_status()
-            return json.loads(response.content)['distances']
-        except requests.exceptions.RequestException as err:
-            print(f"Attempt {attempts + 1} failed: {err}")
-            attempts += 1
-            time.sleep(delay)
+    ```
+        coords = np.vstack((src_coords, dest_coords))
+        coordinates_str = ";".join([f"{x},{y}" for x, y in coords])
+        osrm_endpoint = f"http://router.project-osrm.org/table/v1/driving/{coordinates_str}?sources={sources}&destinations={destinations}&annotations=distance"
+        headers = requests.utils.default_headers()
+        headers.update({'User-Agent': 'My User Agent 1.0'})
+    
+        attempts = 0
+        while attempts < max_retries:
+            try:
+                response = requests.get(osrm_endpoint, headers=headers)
+                response.raise_for_status()
+                return json.loads(response.content)['distances']
+            except requests.exceptions.RequestException as err:
+                print(f"Attempt {attempts + 1} failed: {err}")
+                attempts += 1
+                time.sleep(delay)
    ```
 
 5. Get the providers GEOID using Census Bureau API:
+   ```
+        base_url = "https://geocoding.geo.census.gov/geocoder/geographies/coordinates"
+        params = {
+            "x": longitude,
+            "y": latitude,
+            "benchmark": "Public_AR_Census2020",
+            "vintage": "Census2010_Census2020",
+            "format": "json",
+            "key": API_KEY
+        }
+   ```
+7. Create Supply/Demand/Times Tables:
     ```
-    base_url = "https://geocoding.geo.census.gov/geocoder/geographies/coordinates"
-    params = {
-        "x": longitude,
-        "y": latitude,
-        "benchmark": "Public_AR_Census2020",
-        "vintage": "Census2010_Census2020",
-        "format": "json",
-        "key": API_KEY
-    }
+        getProviders(provider, id_field, provider_type, state)
+        getTimes(provider, id_field, provider_type, state)
+        getPop(state, provider_type) 
     ```
-6. Create Supply/Demand/Times Tables:
-```
-getProviders(provider, id_field, provider_type, state)getTimes(provider, id_field, provider_type, state)
-getPop(state, provider_type) 
-```
 7. Run RAAM:
    ```
        def RAAMDis(A):
@@ -71,9 +74,14 @@ getPop(state, provider_type)
         A.score(name="raamDis_combo", col_dict={f'raamDis_{type}': 0.8})
         return A
    ```
+8. Save Results to CSV:
+   ```
+       df = distanceA.norm_access_df
+       df.to_csv(f"./{type}/RAAM/{state}_{type}_distance_results.csv")
+   ```
 ## Results
 The results showcase the counties that have better and worse access relative to other counties within the analysis. 
-The results found were quite unique and can be interpreted from many different presepctives.
+
 
 ### These are some images generated from RAAM results:
 
