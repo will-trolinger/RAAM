@@ -14,7 +14,7 @@ The notebook utilizes various data sources, including:
 
 ## Data Limitations
 
-The notebook calculates distances using the centroid of each county as a reference point. While this approach provides a practical estimation for large-scale analyses, it's important to note that this method is an approximation. The actual geographical distance between specific locations within counties may vary. This approximation method is chosen for its computational efficiency and simplicity in large datasets, but users should be aware of its limitations in terms of precision.
+The analysis calculates distances using the centroid of each county as a reference point. While this approach provides a practical estimation for large-scale analyses, it's important to note that this method is an approximation. The actual geographical distance between specific locations within counties may vary. This approximation method is chosen for its computational efficiency and simplicity in large datasets, but users should be aware of its limitations in terms of precision.
 
 ## Use
 1. Install the required packages from `requirements.txt`:
