@@ -23,19 +23,20 @@ The notebook calculates distances using the centroid of each county as a referen
         pip install -r requirements.txt
     ```
 2. Download and Save US County Shapefile:
+   
    The US Census Bureau 2020 US County Shapefile:
    https://www.census.gov/cgi-bin/geo/shapefiles/index.php?year=2020&layergroup=Counties+%28and+equivalent%29
    *Save in same directory as code*
    
    
-3. Load data (geographic and providers):
+4. Load data (geographic and providers):
    
     ```
         df1 = getCounties(state)
         df2 = getLocations(state, type)
     ```
 
-4. Use OSRM API to create a distance matrix *(duration can also be used)*:
+5. Use OSRM API to create a distance matrix *(duration can also be used)*:
    
     ```
         coords = np.vstack((src_coords, dest_coords))
@@ -56,7 +57,7 @@ The notebook calculates distances using the centroid of each county as a referen
                 time.sleep(delay)
    ```
 
-5. Get the providers GEOID using Census Bureau API:
+6. Get the providers GEOID using Census Bureau API:
    
    ```
    
@@ -71,14 +72,14 @@ The notebook calculates distances using the centroid of each county as a referen
         }
    
    ```
-6. Create Supply/Demand/Times Tables:
+7. Create Supply/Demand/Times Tables:
    
     ```
         getProviders(provider, id_field, provider_type, state)
         getTimes(provider, id_field, provider_type, state)
         getPop(state, provider_type)
     ```
-7. Run RAAM:
+8. Run RAAM:
    ```
        def RAAMDis(A):
         A.raam(name="raamDis", tau=60)
@@ -87,7 +88,7 @@ The notebook calculates distances using the centroid of each county as a referen
         A.score(name="raamDis_combo", col_dict={f'raamDis_{type}': 0.8})
         return A
    ```
-8. Save Results to CSV:
+9. Save Results to CSV:
    ``` 
        df = distanceA.norm_access_df
        df.to_csv(f"./{type}/RAAM/{state}_{type}_distance_results.csv") 
