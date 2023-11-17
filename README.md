@@ -22,6 +22,12 @@ The notebook calculates distances using the centroid of each county as a referen
     ```
         pip install -r requirements.txt
     ```
+2. Download and Save US County Shapefile:
+   The US Census Bureau 2020 US County Shapefile:
+   https://www.census.gov/cgi-bin/geo/shapefiles/index.php?year=2020&layergroup=Counties+%28and+equivalent%29
+   *Save in same directory as code*
+   
+   
 3. Load data (geographic and providers):
    
     ```
@@ -29,7 +35,7 @@ The notebook calculates distances using the centroid of each county as a referen
         df2 = getLocations(state, type)
     ```
 
-3. Use OSRM API to create a distance matrix *(duration can also be used)*:
+4. Use OSRM API to create a distance matrix *(duration can also be used)*:
    
     ```
         coords = np.vstack((src_coords, dest_coords))
@@ -65,7 +71,7 @@ The notebook calculates distances using the centroid of each county as a referen
         }
    
    ```
-7. Create Supply/Demand/Times Tables:
+6. Create Supply/Demand/Times Tables:
    
     ```
         getProviders(provider, id_field, provider_type, state)
