@@ -1,0 +1,7 @@
+requests
+numpy
+pandas
+tqdm
+access
+geopandas
+shapely
