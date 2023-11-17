@@ -2,7 +2,7 @@
 
 This repository contains a Jupyter Notebook for processing geographic data related to medical services. The notebook is designed to calculate distances between various locations, fetch GEOIDs, and perform RAAM (Rational Agent Access Model) analysis. RAAM analysis evaluates the total cost of access in terms of weighted travel and congestion, which is crucial for enhancing the accessibility and efficiency of medical services in a given state.
 
-## Data Sources
+## Sources
 
 The notebook utilizes various data sources, including:
 
@@ -29,7 +29,7 @@ The notebook calculates distances using the centroid of each county as a referen
         df2 = getLocations(state, type)
     ```
 
-3. Use OSRM API to create a distance matrix:
+3. Use OSRM API to create a distance matrix *(duration can also be used)*:
    
     ```
         coords = np.vstack((src_coords, dest_coords))
