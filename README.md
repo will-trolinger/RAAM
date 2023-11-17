@@ -20,23 +20,18 @@ The notebook calculates distances using the centroid of each county as a referen
 1. Install the required packages from `requirements.txt`:
    
     ```
-    
         pip install -r requirements.txt
-    
     ```
 3. Load data (geographic and providers):
    
     ```
-    
         df1 = getCounties(state)
         df2 = getLocations(state, type)
-    
     ```
 
 3. Use OSRM API to create a distance matrix:
    
     ```
-    
         coords = np.vstack((src_coords, dest_coords))
         coordinates_str = ";".join([f"{x},{y}" for x, y in coords])
         osrm_endpoint = f"http://router.project-osrm.org/table/v1/driving/{coordinates_str}?sources={sources}&destinations={destinations}&annotations=distance"
@@ -53,7 +48,6 @@ The notebook calculates distances using the centroid of each county as a referen
                 print(f"Attempt {attempts + 1} failed: {err}")
                 attempts += 1
                 time.sleep(delay)
-    
    ```
 
 5. Get the providers GEOID using Census Bureau API:
@@ -74,29 +68,23 @@ The notebook calculates distances using the centroid of each county as a referen
 7. Create Supply/Demand/Times Tables:
    
     ```
-    
         getProviders(provider, id_field, provider_type, state)
         getTimes(provider, id_field, provider_type, state)
         getPop(state, provider_type)
-    
     ```
 7. Run RAAM:
    ```
-   
        def RAAMDis(A):
         A.raam(name="raamDis", tau=60)
         A.raam(name="raam30Dis", tau=30)
         A.access_df.sort_values(by=f"raamDis_{type}").dropna().head()
         A.score(name="raamDis_combo", col_dict={f'raamDis_{type}': 0.8})
         return A
-   
    ```
 8. Save Results to CSV:
-   ```
-   
+   ``` 
        df = distanceA.norm_access_df
-       df.to_csv(f"./{type}/RAAM/{state}_{type}_distance_results.csv")
-   
+       df.to_csv(f"./{type}/RAAM/{state}_{type}_distance_results.csv") 
    ```
 ## Results
 The results showcase the counties that have better and worse access relative to other counties within the analysis. 
